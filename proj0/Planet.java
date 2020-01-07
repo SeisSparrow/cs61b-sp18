@@ -6,6 +6,7 @@ public class Planet {
   public double yyVel; // Its current velocity in the y direction
   public double mass;  // Its mass
   public String imgFileName;
+  final static double G = 6.67e-11;
 
   public Planet(double xP, double yP, double xV, 
 		double yV, double m, String img) {
@@ -28,4 +29,55 @@ public class Planet {
     this.imgFileName = p.imgFileName;
   }
 
+  public double calcDistance(Planet p) {
+
+    double dx2 = Math.pow(p.xxPos - this.xxPos, 2);
+    double dy2 = Math.pow(p.yyPos - this.yyPos, 2);
+    return Math.sqrt(dx2 + dy2);
+  }
+
+  public double calcForceExertedBy(Planet p) {
+
+    return G * this.mass * p.mass / Math.pow(this.calcDistance(p), 2);
+  }
+
+  public double calcForceExertedByX(Planet p) {
+   
+    return this.calcForceExertedBy(p) * (p.xxPos - this.xxPos) / this.calcDistance(p);
+  }
+
+  public double calcForceExertedByY(Planet p) {
+
+    return this.calcForceExertedBy(p) * (p.yyPos - this.yyPos) / this.calcDistance(p);
+  }
+
+  public double calcNetForceExertedByX(Planet[] ps) {
+
+    double sum_x = 0; 
+
+    for (Planet p: ps) {
+    
+      if (!this.equals(p)) {
+
+        sum_x = sum_x + this.calcForceExertedByX(p);
+      }
+    }
+
+    return sum_x;
+  }
+
+  public double calcNetForceExertedByY(Planet[] ps) {
+
+    double sum_y = 0;
+
+    for (Planet p: ps) {
+
+      if (!this.equals(p)) {
+
+        sum_y = sum_y + this.calcForceExertedByY(p);
+      }
+    }
+
+    return sum_y;
+  }
 }
