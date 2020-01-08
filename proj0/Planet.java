@@ -1,5 +1,5 @@
 public class Planet {
-  
+
   public double xxPos; // Its current x position
   public double yyPos; // Its current y position
   public double xxVel; // Its current velocity in the x direction
@@ -8,9 +8,9 @@ public class Planet {
   public String imgFileName;
   final static double G = 6.67e-11;
 
-  public Planet(double xP, double yP, double xV, 
+  public Planet(double xP, double yP, double xV,
 		double yV, double m, String img) {
-  
+
     xxPos = xP;
     yyPos = yP;
     xxVel = xV;
@@ -18,7 +18,7 @@ public class Planet {
     mass  = m;
     imgFileName = img;
   }
- 
+
   public Planet(Planet p) {
 
     this.xxPos = p.xxPos;
@@ -42,7 +42,7 @@ public class Planet {
   }
 
   public double calcForceExertedByX(Planet p) {
-   
+
     return this.calcForceExertedBy(p) * (p.xxPos - this.xxPos) / this.calcDistance(p);
   }
 
@@ -53,10 +53,10 @@ public class Planet {
 
   public double calcNetForceExertedByX(Planet[] ps) {
 
-    double sum_x = 0; 
+    double sum_x = 0;
 
     for (Planet p: ps) {
-    
+
       if (!this.equals(p)) {
 
         sum_x = sum_x + this.calcForceExertedByX(p);
@@ -79,5 +79,15 @@ public class Planet {
     }
 
     return sum_y;
+  }
+
+  public void update(double dt, double fX, double fY) {
+
+    double ax = fX / this.mass;
+    double ay = fY / this.mass;
+    this.xxVel = this.xxVel + dt * ax;
+    this.yyVel = this.yyVel + dt * ay;
+    this.xxPos = this.xxPos + dt * this.xxVel;
+    this.yyPos = this.yyPos + dt * this.yyVel;
   }
 }
