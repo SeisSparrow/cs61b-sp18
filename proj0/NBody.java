@@ -22,18 +22,36 @@ public class NBody {
 
     for (int i = 0; i < N; i++) {
 
-      allPlanets[i] = new Planet(in.readDouble(), in.readDouble(), in.readDouble(), in.readDouble(),in.readDouble(),in.readString());
+      allPlanets[i] = new Planet(in.readDouble(), in.readDouble(), in.readDouble(),
+                                 in.readDouble(), in.readDouble(), in.readString());
     }
 
     return allPlanets;
   }
 
-  //public static void main(String[] args) {
+  public static void main(String[] args) {
 
-//    double T = Double.parseDouble(args[0]);
-//    double dt = Double.parseDouble(args[1]);
-//    String filename = args[2];
+    double T = Double.parseDouble(args[0]);
+    double dt = Double.parseDouble(args[1]);
+    String filename = args[2];
+    double radius = readRadius(filename);
+    Planet[] Planets = readPlanets(filename);
 
-//  }
+    StdDraw.setScale(-1 * radius, radius);
+
+    /* Clears the drawing window. */
+
+    /* Stamps three copies of advice.png in a triangular pattern. */
+    StdDraw.picture(0, 0, "images/starfield.jpg");
+
+    for (int i = 0; i < Planets.length; i++) {
+
+      Planets[i].imgFileName = "images/" + Planets[i].imgFileName;
+      Planets[i].draw();
+    }
+
+    /* Shows the drawing to the screen, and waits 2000 milliseconds. */
+    StdDraw.show();
+  }
 
 }
