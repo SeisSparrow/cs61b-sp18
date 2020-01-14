@@ -38,10 +38,6 @@ public class NBody {
     Planet[] Planets = readPlanets(filename);
 
     StdDraw.setScale(-1 * radius, radius);
-
-    /* Clears the drawing window. */
-
-    /* Stamps three copies of advice.png in a triangular pattern. */
     StdDraw.picture(0, 0, "images/starfield.jpg");
 
     for (int i = 0; i < Planets.length; i++) {
@@ -52,6 +48,43 @@ public class NBody {
 
     /* Shows the drawing to the screen, and waits 2000 milliseconds. */
     StdDraw.show();
+    StdDraw.enableDoubleBuffering();
+
+    for (double t = 0; t < T; t = t + dt) {
+
+      double[] xForces = new double[Planets.length];
+      double[] yForces = new double[Planets.length];
+
+      for (int i = 0; i < Planets.length; i++) {
+
+        xForces[i] = Planets[i].calcNetForceExertedByX(Planets);
+        yForces[i] = Planets[i].calcNetForceExertedByX(Planets);
+      }
+
+      for (int i = 0; i < Planets.length; i++) {
+
+        Planets[i].update(dt, xForces[i], yForces[i]);
+      }
+
+      StdDraw.setScale(-1 * radius, radius);
+      StdDraw.picture(0, 0, "images/starfield.jpg");
+
+      for (int i = 0; i < Planets.length; i++) {
+
+        Planets[i].draw();
+      }
+
+      StdDraw.show();
+      StdDraw.pause(10);
+    }
+
+    StdOut.printf("%d\n", Planets.length);
+    StdOut.printf("%.2e\n", radius);
+    for (int i = 0; i < Planets.length; i++) {
+        StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                  Planets[i].xxPos, Planets[i].yyPos, Planets[i].xxVel,
+                  Planets[i].yyVel, Planets[i].mass, Planets[i].imgFileName);
+    }
   }
 
 }
